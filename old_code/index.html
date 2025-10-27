@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-background-color" content="#F9F9F9">
+    <title>Espen Moe - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    
+    <script src="page-colors.js"></script>
+    <script>
+        // Global variabel til baggrundsfarven - kan læses af scripts.js
+        window.pageBackgroundColor = '#F9F9F9';
+        // Anvendes også direkte på body via inline script
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.style.backgroundColor = window.pageBackgroundColor;
+        });
+    </script>
+    <style>
+        /* Tekstfeltstørrelser - kun på desktop */
+        @media (min-width: 1024px) {
+            /* Forøg tekstfelt bredden i hero-sektionen kun på desktop */
+            .text-container {
+                width: calc(var(--card-width) * 1.5) !important; /* 50% bredere end standard */
+            }
+            
+            /* Forøg hero-tekst størrelse med 33% kun på desktop */
+            .hero h1 {
+                font-size: 3.8rem !important; /* 15% mindre end 3.7rem */
+            }
+        }
+        
+        .overlay h3 {
+            color: #fff;
+            font-size: var(--text-card-font-size);
+            margin: 0;
+            padding: 10px;
+            text-align: left;
+            white-space: nowrap; /* Holder teksten på én linje */
+            overflow: hidden; /* Skjuler eventuel overskydende tekst */
+            text-overflow: ellipsis; /* Tilføjer ... hvis teksten er for lang */
+        }
+        
+        .arrow-icon {
+            display: inline-block;
+            width: 1.8em;
+            height: 1.8em;
+            background-image: url('images/arrow-right.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin-left: -24px;
+            vertical-align: middle;
+            opacity: 0.8;
+            transform: translateY(-1px);
+            filter: invert(1) brightness(0.2) drop-shadow(0 0 0 #313131) drop-shadow(0 0 0 #313131);
+        }
+        .arrow-icon:first-of-type {
+            margin-left: -2px;
+        }
+
+        /* Loading overlay - synlig med det samme */
+        .loading-overlay {
+            position: fixed;
+            top: 32px; /* Placér i header højde - justeret 3px op */
+            transform: translateY(-50%);
+            transition: opacity 0.8s ease;
+            pointer-events: none;
+            opacity: 1 !important;
+            visibility: visible !important;
+            z-index: 1000; /* Højere z-index så den er over alt */
+        }
+        
+        /* Desktop: Align til højre kant af right-column (matcher logo-card positioning) */
+        @media (min-width: 1024px) {
+            .loading-overlay {
+                right: calc((100dvw - (var(--card-width) * 2 + var(--card-gap))) / 2 + 20px);
+            }
+        }
+        
+        /* Mobile: Align til højre kant af content med mobile padding */
+        @media (max-width: 1023px) {
+            .loading-overlay {
+                right: calc(var(--mobile-padding) + 20px);
+            }
+        }
+
+        .loading-overlay.hide {
+            opacity: 0 !important;
+        }
+
+        /* Grid loader animation - crisp proportions */
+        :root {
+            --loader-multiplier: 0.6666; /* 66.66% af original størrelse */
+            --loader-dot-size: calc(8px * var(--loader-multiplier));
+            --loader-gap: calc(4px * var(--loader-multiplier));
+        }
+        
+        .loader-grid {
+            display: grid;
+            grid-template-columns: repeat(3, var(--loader-dot-size));
+            grid-template-rows: repeat(3, var(--loader-dot-size));
+            gap: var(--loader-gap);
+        }
+        
+        .dot {
+            width: var(--loader-dot-size);
+            height: var(--loader-dot-size);
+            background-color: #333;
+            border-radius: 50%;
+            transform-origin: center center;
+            opacity: 0;
+            /* Bedre rendering på high-DPI skærme */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            will-change: transform, opacity;
+            /* Subtle shadow for better definition */
+            box-shadow: 0 0 1px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 600px) {
+            :root {
+                --loader-dot-size: calc(6px * var(--loader-multiplier));
+                --loader-gap: calc(3px * var(--loader-multiplier));
+            }
+        }
+
+        /* Hide hero content until loading is complete */
+        body:not(.loaded) .hero {
+            opacity: 0 !important;
+        }
+        
+        body:not(.loaded) #hero-text {
+            opacity: 0 !important;
+        }
+        
+        body:not(.loaded) .slide {
+            opacity: 0 !important;
+        }
+        
+        /* Loader skal altid være synlig - ikke påvirket af loaded state */
+        .loading-overlay {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        
+        body:not(.loaded) .loading-overlay {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+    </style>
+
+</head>
+
+<body data-background-color="#F9F9F9" style="background-color: #F9F9F9;" class="home-page">
+
+
+    <!-- Loader først - vises med det samme -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loader-grid" id="loader">
+            <!-- Dots genereres af JavaScript -->
+        </div>
+    </div>
+    
+    <div class="header">
+        <div class="logo-card">
+            <a href="index.html">
+                <img id="dynamic-logo" src="images/logo.png" alt="Logo">
+            </a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="hero-content">
+            <div class="text-container">
+                <h1 id="hero-text">I turn ideas into<br>form and function</h1>
+            </div>
+        </div>
+        <div class="slide" id="slide1" data-background="light">
+            <video muted loop playsinline preload="auto">
+                <source src="images/hero-1.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="slide" id="slide2" data-background="light-to-dark">
+            <video muted loop playsinline preload="auto">
+                <source src="images/hero-2.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="slide" id="slide3" data-background="dark-to-light">
+            <video muted loop playsinline preload="auto">
+                <source src="images/hero-3.mp4" type="video/mp4">
+            </video>
+        </div>
+    </header>
+
+    <!-- Content Grid -->
+    <main class="content-grid">
+        <div class="left-column">
+            <div class="card double-height">
+                <div class="card-text">
+                    <p>
+                        <b>Thanks for visiting!</b><br><br>
+                        I’m Espen, a visual designer, driven by curiosity and a dedication to transforming complex material into intuitive and aesthetic solutions that feel effortless to engage with.<br><br>
+                        This portfolio is a work in progress, with only a few selected projects on display for now.<br><br>
+                        Feel free to reach out if you have any questions or would like to discuss a project.<br><br>
+                        <a href="tel:+4551262893" style="display: inline; color: inherit; text-decoration: none;" onclick="event.stopPropagation();">+45 51 26 28 93</a> - <a href="mailto:espenmoe.dk@gmail.com" style="display: inline; color: inherit; text-decoration: none;" onclick="event.stopPropagation();">espenmoe.dk@gmail.com</a>
+                    </p>
+  
+                </div>
+            </div>
+            <div class="card">
+                <a href="proj-regapp.html">
+                    <img class="thumbnail-image" src="images/proj-regapp/regapp-thumb.jpg" alt="RegApp" loading="eager">
+                    <div class="overlay">
+                        <h3>RegApp (Project)</h3>
+                    </div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="proj-ai-video.html">
+                    <img class="thumbnail-image" src="videos_ai/thumbnails/3.jpg" alt="AI Experiments" loading="eager">
+                    <video class="thumbnail-video" loop muted playsinline preload="auto">
+                        <source src="videos_ai/videos/3.mp4" type="video/mp4">
+                    </video>
+                    <div class="overlay">
+                        <h3>Generative AI (Experiments)</h3>
+                    </div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="proj-confidential.html">
+                    <img class="thumbnail-image" src="images/proj-confidential/confidential-thumb.jpg" alt="Confidential Projects" loading="eager">
+                    <div class="overlay">
+                        <h3>Confidential Work</h3>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="right-column">
+            <div class="card">
+                <a href="proj-motion.html">
+                    <img class="thumbnail-image" src="videos_motion/thumbnails/oldreel.jpg" alt="Motion Design" loading="eager">
+                    <video class="thumbnail-video" loop muted playsinline preload="auto">
+                        <source src="videos_motion/videos/oldreel.mp4" type="video/mp4">
+                    </video>
+                    <div class="overlay">
+                        <h3>Motion Design</h3>
+                    </div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="proj-nqs.html">
+                    <img class="thumbnail-image" src="images/proj-nqs/ArcFusion-360-thumb.jpg" alt="Nexus Quantum Supplies" loading="eager">
+                    <video class="thumbnail-video" loop muted playsinline preload="auto">
+                        <source src="images/proj-nqs/ArcFusion-360-thumb.mp4" type="video/mp4">
+                    </video>
+                    <div class="overlay">
+                        <h3>Nexus Quantum Supplies (Project)</h3>
+                    </div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="proj-xrpa.html">
+                    <img class="thumbnail-image" src="images/proj-xrpa/XRPA-thumb.jpg" alt="XRPA" loading="eager">
+                    <video class="thumbnail-video" loop muted playsinline preload="auto">
+                        <source src="images/xrpa-hero.mp4" type="video/mp4">
+                    </video>
+                    <div class="overlay">
+                        <h3>XRPA (Project)</h3>
+                    </div>
+                </a>
+            </div>
+          
+     
+      
+        </div>
+    </main>
+
+    <!-- Inkluder den eksterne JavaScript-fil -->
+    <script src="scripts.js"></script>
+</body>
+
+</html>

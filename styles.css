@@ -1,0 +1,1995 @@
+/* Reset and Box Sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    overflow-x: hidden;
+}
+
+:root {
+    /* Layout */
+    --gap: 20px;
+    --section-width: calc(100vw - (var(--gap) * 2));
+    --desktop-columns: 2;
+    --card-width: 600px;
+    --card-height: 400px;
+    --card-gap: 10px;
+    --hero-height: clamp(500px, 50vw, 800px);
+    --hero-overlap: -50px;
+    --border-radius: 4px;
+    --mobile-padding: 10px;
+    --global-bottom-padding: 250px;
+    --header-height: 0px;
+    --footer-opacity: 0.33;
+
+    /* Typography */
+    --font-family: 'Work Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --text-card-font-size: 1.1rem;
+    --text-card-font-spacing: 0.01rem;
+    --text-card-line-height: 1.3;
+    --text-card-font-weight: 400;
+    --text-card-paragraph-weight: 300;
+    --text-card-font-weight-dark: 300;
+    --text-card-paragraph-weight-dark: 100;
+    --text-card-bold-weight-dark: 600;
+
+    /* Colours */
+    --bg-color: #fafafa;
+    --text-color: #333;
+    --placeholder-bg: #e0e0e0;
+    --card-bg: transparent;
+    --header-text-color: #fff;
+    --text-card-text: #313131;
+    --text-card-text-dark: #e0e0e0;
+    --text-card-bg-top: #eeeeee;
+    --text-card-bg-bottom: #e7e7e7;
+    --text-card-bg-top-dark: #121212;
+    --text-card-bg-bottom-dark: #1a1a1a;
+
+    /* Animation timing */
+    --hero-intro-duration: 1.2s;
+    --hero-intro-timing: cubic-bezier(0.25, 0.1, 0.25, 1);
+    --hero-intro-scale: 1.5;
+    --hero-intro-blur: 100px;
+    --hero-intro-delay: 0s;
+    --hero-slide-blur: 5px;
+    --hero-slide-duration: 2s;
+    --animation-master-delay: 0s;
+    --card-animation-duration: 1.2s;
+    --card-animation-distance: 100px;
+    --card-animation-easing: cubic-bezier(0.4, 0, 0.2, 1);
+    --card-delay-increment: 0.15s;
+    --card-initial-delay: 1s;
+    --card-fade-start: 0;
+    --card-fade-end: 1;
+    --card-blur-start: 5px;
+    --card-blur-end: 0;
+
+    /* Hover / overlay */
+    --hover-transition: 0.8s ease-in-out;
+    --hover-scale: 1.3;
+    --hover-overlay: rgba(0, 0, 0, 0.5);
+    --index-hover-transition: 0.8s ease-in-out;
+    --index-hover-scale: 1.3;
+    --index-hover-overlay: rgba(0, 0, 0, 0.5);
+    --index-hover-blur: 3px;
+    --project-hover-transition: 0.8s ease-in-out;
+    --project-hover-scale: 1.3;
+    --project-hover-overlay: rgba(0, 0, 0, 0.5);
+    --project-hover-blur: 0px;
+    --project-hover-gradient-height: 150px;
+
+    /* Logo */
+    --logo-max-height: 25px;
+    --logo-top-offset: 0px;
+    --logo-top-mobile-offset: 10px;
+    --logo-size-multiplier: 0.9;
+    --header-height: 80px;
+
+    /* Text styling */
+    --text-fade-height: 20;
+    --text-card-padding: 30px;
+    --text-card-top-padding: 25px;
+    --card-hover-text: #fff;
+    --card-hover-text-size: 1.2;
+    --card-hover-text-width: 800px;
+    --card-hover-text-weight: 400;
+    --text-thumb-heading-size: var(--font-size-light-text-strong);
+    --text-thumb-caption-size: var(--font-size-light-text-light);
+    --text-thumb-padding-left: 30px;
+    --text-thumb-padding-bottom: 30px;
+    --category-title-spacing: 40px;
+    --category-title-shadow-blur: 15px;
+    --category-title-shadow-opacity: 0.5;
+    --category-title-letter-spacing: 0.02em;
+
+    /* Tone weights */
+    --font-weight-dark-text-strong: 600;
+    --font-weight-dark-text-normal: 300;
+    --font-weight-dark-text-light: 200;
+    --font-weight-dark-text-headline: 200;
+    --font-size-dark-text-strong: 1.15rem;
+    --font-size-dark-text-normal: 1.15rem;
+    --font-size-dark-text-light: 0.9rem;
+    --font-size-dark-text-headline: 4rem;
+    --letter-spacing-dark: -1em;
+    --font-weight-light-text-strong: 600;
+    --font-weight-light-text-normal: 300;
+    --font-weight-light-text-light: 200;
+    --font-weight-light-text-headline: 200;
+    --font-size-light-text-strong: 1.2rem;
+    --font-size-light-text-normal: 1rem;
+    --font-size-light-text-light: 0.9rem;
+    --font-size-light-text-headline: 4rem;
+    --letter-spacing-light: -1em;
+}
+
+body {
+    font-family: var(--font-family);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+    width: 100%;
+    max-width: 100vw;
+    margin: 0 auto;
+    padding-top: var(--header-height); /* Plads til fixed header */
+    padding-bottom: var(--global-bottom-padding); /* Global padding i bunden af alle sider */
+    position: relative; /* Tilføj position relative så footer absolute positionering fungerer */
+    min-height: 100vh; /* Sikrer at body er mindst skærmhøjden */
+}
+
+@media (max-width: 1023px) {
+    :root {
+        --header-height: 64px;
+    }
+}
+
+/* Typography Utilities */
+.surface-dark {
+    color: inherit;
+}
+
+:where(.ty-body, .ty-emphasis, .ty-heading, .ty-display, .ty-cardlabel, .ty-lightbox, .ty-variant1, .ty-variant2, .ty-variant3, .ty-variant4) {
+    font-family: var(--font-family);
+    letter-spacing: var(--ty-track-light, 0);
+    font-weight: var(--ty-weight-light, 400);
+    color: inherit;
+}
+
+.surface-dark :where(.ty-body, .ty-emphasis, .ty-heading, .ty-display, .ty-cardlabel, .ty-lightbox, .ty-variant1, .ty-variant2, .ty-variant3, .ty-variant4),
+:where(.ty-body, .ty-emphasis, .ty-heading, .ty-display, .ty-cardlabel, .ty-lightbox, .ty-variant1, .ty-variant2, .ty-variant3, .ty-variant4).surface-dark,
+.dark-text-card :where(.ty-body, .ty-emphasis, .ty-heading, .ty-display, .ty-cardlabel, .ty-lightbox, .ty-variant1, .ty-variant2, .ty-variant3, .ty-variant4),
+.overlay.surface-dark :where(.ty-body, .ty-emphasis, .ty-heading, .ty-display, .ty-cardlabel, .ty-lightbox, .ty-variant1, .ty-variant2, .ty-variant3, .ty-variant4) {
+    font-weight: var(--ty-weight-dark, var(--ty-weight-light, 400));
+    letter-spacing: var(--ty-track-dark, var(--ty-track-light, 0));
+}
+
+.surface-dark .ty-body,
+.ty-body.surface-dark,
+.dark-text-card .ty-body,
+.overlay.surface-dark .ty-body {
+    color: rgba(250, 250, 255, 0.92);
+}
+
+.ty-body {
+    --ty-weight-light: 400;
+    --ty-weight-dark: 200;
+    --ty-track-light: -0.03em;
+    --ty-track-dark: 0.05em;
+    font-size: clamp(1.1rem, 1.2vw, 1.3rem);
+    line-height: 1.4;
+    font-weight: var(--ty-weight-light, 400);
+}
+
+.surface-dark .ty-body,
+.ty-body.surface-dark,
+.dark-text-card .ty-body,
+.overlay.surface-dark .ty-body {
+    font-weight: var(--ty-weight-dark, var(--ty-weight-light, 400));
+}
+
+    hr {
+        margin: 0.7em 0;
+        border: none;   
+        border-top: 4px dotted rgba(255, 255, 255, 0.5);
+        width: 100%; 
+    }
+    .dotted-hr {
+        border: none;
+        height: 1px;
+        background: repeating-linear-gradient(
+          to right,
+          #ffffff7d 0 1px,     
+          transparent 1px 6px
+        );
+      }
+      
+
+.ty-emphasis {
+    --ty-weight-light: 500;
+    --ty-weight-dark: 400;
+    --ty-track-light: 0;
+    --ty-track-dark: 0;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+.ty-heading {
+    --ty-weight-light: 300;
+    --ty-weight-dark: 150;
+    --ty-track-light: 0.016em;
+    --ty-track-dark: 0.05em;
+    font-size: clamp(1.5rem, 2.1vw, 1.8rem);
+    line-height: 1.12;
+}
+
+
+
+.ty-display {
+    --ty-weight-light: 200;
+    --ty-weight-dark: 100;
+    --ty-track-light: 0.02em;
+    --ty-track-dark: 0.008em;
+    font-size: clamp(3.6rem, 6.8vw, 4.4rem);
+    line-height: 1.05;
+}
+
+.ty-display.ty-display-compact {
+    font-size: clamp(2rem, 3.4vw, 2.4rem);
+    line-height: 1.1;
+}
+
+.ty-cardlabel {
+    --ty-weight-light: 450;
+    --ty-weight-dark: 350;
+    --ty-track-light: 0.02em;
+    --ty-track-dark: 0.012em;
+    font-size: clamp(0.95rem, 1.25vw, 1rem);
+    line-height: 1.4;
+    display: inline-block;
+    margin-right: 0.5rem;
+}
+
+.ty-lightbox {
+    --ty-weight-light: 400;
+    --ty-weight-dark: 300;
+    --ty-track-light: 0.01em;
+    --ty-track-dark: 0.004em;
+    font-size: clamp(0.9rem, 1.1vw, 1rem);
+    line-height: 1.45;
+}
+
+.ty-variant1 {
+    --ty-weight-light: 300;
+    --ty-weight-dark: 200;
+    --ty-track-light: 0;
+    --ty-track-dark: 0;
+    font-size: clamp(1.25rem, 2vw, 1.4rem);
+    line-height: 1.35;
+}
+
+.ty-variant2 {
+    --ty-weight-light: 350;
+    --ty-weight-dark: 250;
+    --ty-track-light: 0;
+    --ty-track-dark: 0;
+    font-size: clamp(1.15rem, 1.8vw, 1.3rem);
+    line-height: 1.4;
+}
+
+.ty-variant3 {
+    --ty-weight-light: 400;
+    --ty-weight-dark: 300;
+    --ty-track-light: 0.06em;
+    --ty-track-dark: 0.05em;
+    font-size: clamp(0.82rem, 1vw, 0.9rem);
+    line-height: 1.5;
+}
+
+.ty-variant4 {
+    --ty-weight-light: 300;
+    --ty-weight-dark: 200;
+    --ty-track-light: 0.18em;
+    --ty-track-dark: 0.18em;
+    font-size: clamp(0.72rem, 0.9vw, 0.82rem);
+    line-height: 1.45;
+    text-transform: uppercase;
+}
+
+.ty-divider {
+    display: block;
+    width: 100%;
+    height: 1px;
+    margin: 1.2rem 0;
+    background-image: radial-gradient(currentColor 1.5px, transparent 1.5px);
+    background-size: 6px 6px;
+    background-position: 0 50%;
+    background-repeat: repeat-x;
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.ty-divider.visible {
+    opacity: var(--ty-divider-opacity, 0.45);
+    transform: scaleX(1);
+}
+
+.surface-dark .ty-divider.visible,
+.dark-text-card .ty-divider.visible {
+    --ty-divider-opacity: 0.32;
+}
+
+.ty-body strong,
+.ty-body b {
+    font-size: inherit;
+    line-height: inherit;
+    font-weight: inherit;
+    letter-spacing: inherit;
+}
+
+.ty-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.35rem 0.75rem;
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.05);
+    color: inherit;
+    text-decoration: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    gap: 0.35rem;
+}
+
+.ty-chip .arrow-icon {
+    margin-left: -4px;
+}
+
+.surface-dark .ty-chip,
+.ty-chip.surface-dark {
+    background-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+}
+
+.ty-chip:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.surface-dark .ty-chip:hover,
+.ty-chip.surface-dark:hover {
+    background-color: rgba(255, 255, 255, 0.16);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+}
+
+.card.double-height .card-text a.ty-chip {
+    display: inline-flex;
+    width: auto;
+    align-self: flex-start;
+}
+
+@media (max-width: 600px) {
+    .ty-body {
+        font-size: clamp(0.85rem, 3.8vw, 1.05rem);
+    }
+
+    .ty-heading {
+        font-size: clamp(1rem, 4.8vw, 1.4rem);
+    }
+
+    .ty-display {
+        font-size: clamp(2.2rem, 8.5vw, 3.2rem);
+    }
+
+    .ty-cardlabel {
+        font-size: clamp(0.75rem, 3.2vw, 0.9rem);
+    }
+
+    .ty-lightbox {
+        font-size: clamp(0.78rem, 3vw, 0.92rem);
+    }
+
+    .ty-variant1 {
+        font-size: clamp(1rem, 4.2vw, 1.2rem);
+    }
+
+    .ty-variant2 {
+        font-size: clamp(0.95rem, 4vw, 1.1rem);
+    }
+
+    .ty-variant3 {
+        font-size: clamp(0.68rem, 3.2vw, 0.82rem);
+    }
+
+    .ty-variant4 {
+        font-size: clamp(0.6rem, 3vw, 0.72rem);
+    }
+
+    .ty-display.ty-display-compact {
+        font-size: clamp(1.35rem, 6vw, 1.9rem);
+    }
+}
+
+/* Header Section */
+.header {
+    width: 100%;
+    background: transparent;
+    display: flex;
+    justify-content: space-between;
+    position: fixed;  /* Ændret til fixed for sticky behavior */
+    top: 0;
+    left: 0;
+    z-index: 100;  /* Højere z-index for at være over alt indhold */
+    transition: all 0.3s ease;
+    --header-bg-opacity: 0;  /* Initial opacity for gradvis fade */
+}
+
+/* Scroll-responsiv baggrund til header */
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: var(--header-bg-color, rgba(255, 255, 255, 0.95));  /* Bruger sidens baggrundsfarve */
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    box-shadow: 0 2px 40px rgba(0, 0, 0, 0.1);  /* Svag diffus drop shadow - dobbelt blur */
+    backdrop-filter: blur(10px);  /* Moderne blur-effekt */
+    -webkit-backdrop-filter: blur(10px);  /* Safari support */
+    will-change: opacity;  /* Optimering for smooth animation */
+}
+
+/* Vis baggrund når scrollet - bruger custom property for gradvis fade */
+.header.scrolled::before {
+    opacity: var(--header-bg-opacity, 0.95);
+}
+
+/* Page transition - langsom fade ud af header baggrund */
+.header.page-transition::before {
+    transition: opacity 600ms ease; /* Matcher contentFadeDuration */
+}
+
+.logo-card {
+    width: calc(var(--card-width) * 2 + var(--card-gap));
+    background: transparent;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px 20px 10px 20px;  /* 20px top, 10px bottom for mindre spacing */
+    margin-left: calc(100dvw - (var(--card-width) * 2 + var(--card-gap)) - ((100dvw - (var(--card-width) * 2 + var(--card-gap))) / 2));
+    position: relative;
+    z-index: 101;  /* Over header background */
+    min-height: 50px;  /* Reduceret højde */
+}
+
+.logo-card img {
+    max-height: calc(var(--logo-max-height) * var(--logo-size-multiplier));
+    height: auto;
+    margin-bottom: 0;
+}
+
+/* Logo styling */
+.logo-light {
+    filter: invert(1); /* Inverterer farverne for at få en lys version af logoet */
+}
+
+.logo-dark {
+    filter: none; /* Standard mørk version */
+}
+
+#dynamic-logo {
+    filter: brightness(0);  /* Standard sort logo */
+    transition: filter 1s ease;
+}
+
+#dynamic-logo.light {
+    filter: brightness(0) invert(1);  /* Hvidt logo */
+}
+
+/* Scroll-override for logo - højere specificity */
+#dynamic-logo.scroll-override {
+    transition: filter 0.3s ease;  /* Hurtigere transition ved scroll */
+}
+
+#dynamic-logo.scroll-override.light {
+    filter: brightness(0) invert(1);  /* Hvidt logo */
+}
+
+/* Logo link styling */
+.logo-card a {
+    text-decoration: none;
+    display: inline-block;
+}
+
+/* Project page logo */
+.project-logo {
+    position: fixed;
+    top: calc(20px + var(--logo-top-offset));
+    left: calc((100dvw - (var(--card-width) * 2 + var(--card-gap))) / 2 + var(--card-gap));
+    height: calc(var(--logo-max-height) * var(--logo-size-multiplier));
+    width: auto;
+    z-index: 10;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.project-logo:hover {
+    transform: scale(1.1);
+}
+
+/* Hero Section */
+.hero {
+    width: calc(100dvw + 1000px);
+    height: var(--hero-height);
+    margin-left: calc((100dvw - 100%) / -2 - 500px);
+    margin-right: calc((100dvw - 100%) / -2 - 500px);
+    margin-top: -80px; /* Matcher den oprindelige offset for hero */
+    position: relative;
+    /* overflow: hidden; fjernet så video ikke beskæres ved scale */
+    background-color: var(--header-bg-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 0;
+    margin-bottom: var(--hero-overlap);  /* Static overlap - parallax will add dynamic movement */
+    transform-origin: center;
+    transform: scale(var(--hero-intro-scale)) translateY(var(--parallax-offset, 0px));
+    opacity: 0;
+    will-change: transform, opacity;
+}
+
+/* Hero animation starter kun når siden er loaded */
+body.loaded .hero {
+    animation: heroReveal var(--hero-intro-duration) var(--hero-intro-timing) forwards;
+    /* Ensure parallax transforms don't conflict with animation */
+    transform-origin: center;
+}
+
+@keyframes heroReveal {
+    0% {
+        transform: scale(var(--hero-intro-scale)) translateY(var(--parallax-offset, 0px));
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1) translateY(var(--parallax-offset, 0px));
+        opacity: 1;
+    }
+}
+
+/* Parallax scroll support */
+.hero {
+    /* Enable hardware acceleration for smooth parallax */
+    will-change: transform;
+    backface-visibility: hidden;
+    /* Ensure hero can move independently */
+    position: relative;
+    z-index: 1;
+}
+
+.content-grid {
+    /* Ensure content stays above hero during parallax */
+    position: relative;
+    z-index: 2;
+    /* Enable hardware acceleration */
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+.hero-content {
+    position: absolute;
+    z-index: 3;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: calc((100dvw - var(--card-width) * 2 - var(--card-gap)) / 2 + var(--card-width) + var(--card-gap) + 500px + 20px);
+    opacity: 0;
+    transform: translateY(20px);
+    animation: heroContentReveal var(--hero-intro-duration) var(--hero-intro-timing) forwards;
+    will-change: transform, opacity;
+}
+
+@keyframes heroContentReveal {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.video-page .hero {
+    transform: none !important;
+    --parallax-offset: 0px;
+}
+
+.video-page .hero video,
+.video-page .hero .slide {
+    transform: none !important;
+}
+
+.text-container {
+    width: var(--card-width);  /* Samme bredde som cards */
+}
+
+.hero h1 {
+    color: var(--header-text-color);
+    font-size: var(--font-size-dark-text-headline);
+    margin: 0;
+    line-height: 1.2;
+    text-align: left;
+    font-weight: var(--font-weight-dark-text-headline);
+    transition: opacity 0.5s, filter 0.5s;
+    opacity: 1;
+    filter: blur(0);
+}
+
+.hero h1.blur {
+    filter: blur(8px);
+}
+
+@media (max-width: 600px) {
+    :root {
+        --font-size-dark-text-headline: 3rem;
+    }
+
+    .hero h1 {
+        line-height: 1.08;
+    }
+}
+
+@media (max-width: 1023px) and (min-width: 601px) {
+    :root {
+        --font-size-dark-text-headline: 3.4rem;
+    }
+
+    .hero h1 {
+        line-height: 1.12;
+    }
+}
+
+.slide {
+    position: absolute;
+    width: calc(100% + 1000px); /* Matcher hero udvidelse */
+    height: 100%;
+    left: -500px; /* Centrér den udvidede bredde */
+    opacity: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    transition: opacity 1s;
+    z-index: 0;  /* Standard z-index; vi justerer i JS */
+    /* overflow: hidden; fjernet så video ikke croppes ved scale */
+}
+
+/* Hero video/image styling */
+.slide video {
+    position: absolute;
+    top: 0;
+    left: -500px; /* Udvid til venstre for at matche hero udvidelse */
+    width: calc(100% + 1000px); /* Udvid bredde til at matche hero udvidelse */
+    height: 100%;
+    object-fit: cover;
+}
+
+.slide img {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero .slide video {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+}
+
+.hero .slide video[poster]:not(.video-ready) {
+    opacity: 1;
+}
+
+.hero .slide video.video-ready {
+    opacity: 1;
+}
+
+.hero .slide.video-loaded {
+    background-image: none !important;
+}
+
+.hero video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* Tillad videoen at følge parent hero-animation */
+}
+
+
+
+/* XRPA page video styling */
+.xrpa .hero video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 1;  /* Fjern opacity helt for at teste */
+}
+
+/* Hero fade effects */
+.hero.fade-out {
+    opacity: 0 !important;
+    transition: opacity 0.4s ease-out, filter 0.4s ease-out !important;
+    pointer-events: none;
+    /* Fjern indlæsningsanimation med higher specificity */
+    animation: none !important;
+    will-change: opacity, filter;
+    visibility: hidden !important; /* Tilføjet for ekstra sikkerhed */
+}
+
+.hero.fade-out img,
+.hero.fade-out .slide,
+.hero.fade-out .hero-content,
+.hero.fade-out #hero-text {
+    opacity: 0 !important;
+    transition: opacity 0.4s ease-out !important;
+    visibility: hidden !important;
+}
+
+.hero.fade-out video {
+    opacity: 0;
+    transition: opacity 0.5s ease-out;
+}
+
+/* Desktop video positioning */
+@media (min-width: 1221px) {
+    .slide video {
+        object-position: calc((100% - (var(--card-width) * 2 + var(--card-gap))) / 2 + (var(--card-width) / 2)) center;
+    }
+    .slide img {
+        object-position: calc((100% - (var(--card-width) * 2 + var(--card-gap))) / 2 + (var(--card-width) / 2)) center;
+    }
+    
+    /* Overskriver for motion-siden for at sikre video fylder hele bredden */
+    .video-page .slide video {
+        object-position: center;
+    }
+}
+
+/* Grid Layout */
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr var(--card-width) var(--card-gap) var(--card-width) 1fr;
+    padding-top: 0;  /* Fjernet padding-top da hero nu har margin-bottom */
+    position: relative;
+    z-index: 3;
+    overflow: hidden;
+    background: transparent;
+}
+
+/* Eksplicit fjern baggrund fra grid-områder */
+.content-grid > * {
+    background: transparent !important;
+}
+
+/* COLUMN LAYOUT */
+.left-column {
+    grid-column: 2 / 3;
+    display: flex;
+    flex-direction: column;
+    gap: var(--card-gap);
+    align-items: flex-start;
+    background: transparent;
+}
+
+.right-column {
+    grid-column: 4 / 5;
+    display: flex;
+    flex-direction: column;
+    gap: var(--card-gap);
+    align-items: flex-start;
+    background: transparent;
+}
+
+/* Fjern projekt-side layout med reduceret gap */
+.xrpa .content-grid,
+.viscom-page .content-grid {
+    grid-template-columns: 1fr var(--card-width) var(--card-gap) var(--card-width) 1fr;
+}
+
+.xrpa .left-column,
+.xrpa .right-column,
+.viscom-page .left-column,
+.viscom-page .right-column {
+    gap: var(--card-gap);
+}
+
+/* CARD SYSTEM 
+ * ------------------------------------------------
+ * 1. Base card styles
+ * 2. Card types:
+ *    - Text cards (double-height)
+ *    - Fixed height image cards (home-page)
+ *    - Dynamic height image cards (project pages)
+ * 3. Card hover effects
+ * 4. Thumbnail videos
+ * 5. Overlay text
+ */
+
+/* 1. BASE CARD STYLES */
+.card {
+    width: var(--card-width);
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    position: relative;
+    overflow: hidden;
+    box-shadow: none;
+    margin-bottom: 0; /* Ingen margin - helt styres af flex gap */
+}
+
+.card img {
+    width: 100%;
+    display: block; /* Eliminate white space */
+    border-radius: var(--border-radius); /* Følg kortets border-radius */
+}
+
+.card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+/* 2. CARD TYPES */
+
+/* Text Cards - consistent height determined by content */
+.card.double-height {
+    height: auto;
+    min-height: 0;
+    cursor: default;
+    margin-bottom: 0; /* Ingen margin - styres af flex gap */
+    --text-card-current-bg-top: var(--text-card-bg-top);
+    --text-card-current-bg-bottom: var(--text-card-bg-bottom);
+    --text-card-current-text: var(--text-card-text);
+    --text-card-current-paragraph-weight: var(--text-card-paragraph-weight);
+    --text-card-current-bold-weight: 300;
+    background: linear-gradient(to bottom, var(--text-card-current-bg-top), var(--text-card-current-bg-bottom));
+}
+
+.card.double-height.light-text-card {
+    --text-card-current-bg-top: var(--text-card-bg-top);
+    --text-card-current-bg-bottom: var(--text-card-bg-bottom);
+    --text-card-current-text: var(--text-card-text);
+    --text-card-current-paragraph-weight: var(--text-card-paragraph-weight);
+    --text-card-current-bold-weight: 700;
+}
+
+.card.double-height.dark-text-card {
+    --text-card-current-bg-top: var(--text-card-bg-top-dark);
+    --text-card-current-bg-bottom: var(--text-card-bg-bottom-dark);
+    --text-card-current-text: var(--text-card-text-dark);
+    --text-card-current-paragraph-weight: 300;
+    --text-card-current-bold-weight: 600;
+}
+
+.card-text {
+    background: transparent;
+    font-family: var(--font-family);
+    padding: var(--text-card-top-padding) var(--text-card-padding) var(--text-card-padding) var(--text-card-padding);
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: left;
+    gap: var(--text-card-font-spacing);
+    color: var(--text-card-current-text);
+}
+
+.card-text b,
+.card-text strong {
+    font-size: inherit;
+    font-weight: var(--text-card-current-bold-weight);
+    /* color: #555; */ /* Fjerner hård-kodet farve så den følger parent elementets farve */
+}
+
+.text-link-inline {
+    color: inherit;
+    text-decoration: none;
+    display: inline;
+}
+
+.text-link-inline:hover {
+    text-decoration: underline;
+}
+
+.card.double-height .card-text *,
+.card.double-height .project-description,
+.card.double-height .project-description *,
+.card.double-height .project-title,
+.card.double-height .project-meta,
+.card.double-height .project-paragraph {
+    color: var(--text-card-current-text);
+}
+
+.card.double-height .card-text p,
+.card.double-height .project-description p,
+.card.double-height .project-paragraph {
+    margin: 0;
+}
+
+.card.double-height .card-text b,
+.card.double-height .card-text strong,
+.card.double-height .project-description b,
+.card.double-height .project-description strong,
+.card.double-height .project-paragraph strong {
+    font-weight: var(--text-card-current-bold-weight);
+}
+
+/* Project description styling */
+.project-description {
+    padding: 1.5rem;
+}
+
+.project-title {
+    font-weight: 700;
+    font-size: 1rem;
+    margin: 0 0 1rem 0;
+    letter-spacing: 0.02em;
+    color: var(--text-card-current-text);
+}
+
+.project-meta {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-card-current-text);
+    opacity: 0.85;
+}
+
+.project-paragraph {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    color: var(--text-card-current-text);
+    opacity: 0.9;
+}
+
+.project-paragraph strong {
+    font-weight: var(--text-card-current-bold-weight);
+    opacity: 1;
+}
+
+/* Fixed Height Image Cards (home page) */
+.home-page .card:not(.double-height) {
+    height: var(--card-height); /* Fixed height on home page */
+    cursor: pointer;
+    margin-bottom: 0; /* Ingen margin - styres af flex gap */
+}
+
+.home-page .card:not(.double-height) img,
+.home-page .card .thumbnail-image {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+/* Home-page video thumbnail specific */
+.home-page .thumbnail-video {
+    position: absolute !important;
+    height: 100% !important;
+    width: 100% !important;
+    top: 0 !important;
+    left: 0 !important;
+    object-fit: cover !important;
+    display: block;
+}
+
+/* Dynamic Height Image Cards (project pages) */
+.card:not(.double-height):not(.home-page .card) {
+    height: auto; /* Dynamic height based on content */
+    cursor: pointer;
+    margin-bottom: 0; /* Ingen margin - styres af flex gap */
+}
+
+.card:not(.double-height):not(.home-page .card) img {
+    display: block;
+    width: 100%;
+    height: auto;
+    position: relative;
+    border-radius: inherit;
+}
+
+.card:not(.double-height):not(.home-page .card) .thumbnail-video,
+.card:not(.double-height):not(.home-page .card) video {
+    display: block;
+    border-radius: inherit;
+}
+
+/* Special styling for specific project pages - margin-bottom fjernes da vi bruger gap */
+.xrpa .card:not(.double-height), 
+.viscom-page .card:not(.double-height) {
+    margin-bottom: 0; /* Ingen margin - styres af flex gap i parent */
+}
+
+.xrpa .card:not(.double-height) img,
+.viscom-page .card:not(.double-height) img,
+.xrpa .card:not(.double-height) .thumbnail-image,
+.viscom-page .card:not(.double-height) .thumbnail-image {
+    width: 100%;
+    height: auto;
+    position: relative;
+    object-fit: contain;
+    display: block; /* Remove any white space */
+    border-radius: inherit;
+}
+
+.card.video-default {
+    aspect-ratio: var(--card-aspect, 16 / 9);
+    overflow: hidden;
+}
+
+.card.video-default .thumbnail-image,
+.card.video-default .thumbnail-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+}
+
+.card.video-default .thumbnail-video {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2;
+}
+
+.card.video-default .thumbnail-image {
+    opacity: 0;
+    z-index: 1;
+}
+
+.card.video-default:hover .thumbnail-video {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.card.video-default:hover .thumbnail-image {
+    opacity: 1;
+    visibility: visible;
+    z-index: 2;
+}
+
+/* Special for video pages */
+.video-page .card.double-height {
+    height: auto;
+    min-height: 0;
+}
+
+.card.double-height.text-card-confidential {
+    --text-card-current-bg-top: #6c6c6c;
+    --text-card-current-bg-bottom: #5a5a5a;
+    --text-card-current-text: #ffffff;
+    --text-card-current-paragraph-weight: var(--text-card-paragraph-weight-dark);
+    --text-card-current-bold-weight: var(--text-card-bold-weight-dark);
+}
+
+.xrpa .card.double-height {
+    position: relative;
+    overflow: hidden;
+    background: none;
+}
+
+.xrpa .card.double-height::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('images/proj-xrpa/0-card-color.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 0;
+}
+
+.xrpa .card.double-height .card-text {
+    position: relative;
+    z-index: 1;
+    background: transparent;
+}
+
+
+/* 3. CARD HOVER EFFECTS */
+.card:not(.double-height) img {
+    transition: transform var(--index-hover-transition), filter var(--index-hover-transition);
+    transform-origin: center;
+}
+
+.card:not(.double-height):hover img {
+    transform: scale(var(--project-hover-scale));
+    filter: blur(var(--project-hover-blur));
+}
+
+/* Alternativ hover-effekt uden scale - for kort med tekst eller detaljer */
+.card.no-scale:not(.double-height) img,
+.card.no-scale .thumbnail-image {
+    transition: filter var(--index-hover-transition), brightness var(--index-hover-transition);
+    transform: none !important;
+}
+
+.card.no-scale:not(.double-height):hover img,
+.card.no-scale:hover .thumbnail-image {
+    transform: none !important;
+    filter: brightness(1.2) !important;
+}
+
+/* Tilføj en subtil border highlight i stedet for scale */
+.card.no-scale {
+    overflow: visible;
+    transition: box-shadow var(--index-hover-transition), transform var(--index-hover-transition);
+}
+
+.card.no-scale:hover {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px);
+}
+
+/* Simpel opacity hover effekt - kun transparency ændring */
+.card.opacity-hover img,
+.card.opacity-hover .thumbnail-image {
+    opacity: 1;
+    transition: opacity var(--index-hover-transition);
+    transform: none !important;
+}
+
+.card.opacity-hover:hover img,
+.card.opacity-hover:hover .thumbnail-image {
+    opacity: 0.66;
+    transform: none !important;
+    filter: none !important;
+}
+
+.card.opacity-hover {
+    overflow: hidden;
+}
+
+/* Skjul gradient og overlay tekst for opacity-hover */
+.card.opacity-hover:hover::after {
+    opacity: 0 !important;
+}
+
+.card.opacity-hover:hover .overlay {
+    opacity: 0 !important;
+}
+
+/* Skjul lightbox tekst når denne klasse bruges */
+.lightbox.hide-caption .lightbox-caption {
+    display: none;
+}
+
+.card:not(.double-height)::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: var(--project-hover-gradient-height);
+    background: linear-gradient(
+        to top,
+        var(--project-hover-overlay) 0%,
+        transparent 100%
+    );
+    opacity: 0 !important;
+    transition: opacity var(--project-hover-transition);
+    pointer-events: none;
+    z-index: 1;
+    display: none;
+}
+
+.card:not(.double-height):hover::after {
+    opacity: 1;
+}
+
+/* Disable zoom/scale effect for video cards when video is active */
+.card.video-active .thumbnail-image,
+.card.video-active:hover .thumbnail-image,
+.card:not(.double-height).video-active .thumbnail-image,
+.card:not(.double-height).video-active:hover .thumbnail-image,
+.home-page .card.video-active .thumbnail-image,
+.home-page .card.video-active:hover .thumbnail-image,
+body.home-page .card:not(.double-height).video-active:hover img.thumbnail-image {
+    transform: none !important;
+    filter: none !important;
+}
+
+/* Override general hover effect for all img elements in video cards */
+.card.has-video img,
+.card.has-video:hover img,
+.card.has-video .thumbnail-image,
+.card.has-video:hover .thumbnail-image,
+.card:not(.double-height).has-video img,
+.card:not(.double-height).has-video:hover img {
+    transform: none !important;
+    filter: none !important;
+}
+
+/* Tilføj yderligere regler for alle typer video-thumbnails */
+.card video,
+.card:hover video,
+.card .thumbnail-video,
+.card:hover .thumbnail-video,
+.card:not(.double-height) video,
+.card:not(.double-height):hover video,
+.card:not(.double-height) .thumbnail-video,
+.card:not(.double-height):hover .thumbnail-video,
+.card:not(.double-height) video.poster,
+.card:not(.double-height):hover video.poster {
+    transform: none !important;
+    filter: none !important;
+}
+
+/* Sikr at forældrens hover ikke zoomer thumbnails med video */
+.card:has(video) img,
+.card:has(video):hover img,
+.card:has(.thumbnail-video) img,
+.card:has(.thumbnail-video):hover img {
+    transform: none !important;
+    filter: none !important;
+}
+
+/* Fix for hover during loading */
+.content-grid .card:hover {
+    opacity: 1; /* Ensure card is fully visible on hover, even during animation */
+}
+
+/* Ensure images/videos display correctly during hover, even during animation */
+.content-grid .card:not(.video-default):hover .thumbnail-image {
+    opacity: 1;
+    transition: transform var(--card-animation-duration) var(--card-animation-easing);
+}
+
+/* Disable hover effects for no-hover cards */
+.card.no-hover:hover img,
+.card.no-hover:hover::after,
+.card.no-hover:hover .overlay {
+    transform: none !important;
+    filter: none !important;
+    opacity: 0 !important;
+}
+
+.card.no-hover:hover .thumbnail-video {
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
+/* 4. THUMBNAIL VIDEOS */
+.card .thumbnail-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 2;
+    border-radius: var(--border-radius); /* Følg kortets border-radius */
+    display: block;
+}
+
+.card .thumbnail-image {
+    transition: opacity 0.3s ease;
+    z-index: 1;
+    border-radius: var(--border-radius); /* Følg kortets border-radius */
+    display: block;
+}
+
+.card:not(.video-default):hover .thumbnail-video {
+    opacity: 1;
+}
+
+.card:not(.video-default):hover .thumbnail-image {
+    opacity: 0;
+}
+
+/* Thumbnail image on index (where positioning is important) */
+.home-page .card .thumbnail-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Ensures videos play correctly when active */
+.content-grid .card.video-active .thumbnail-video {
+    opacity: 1;
+    visibility: visible;
+}
+
+.card.video-active .thumbnail-video {
+    opacity: 1;
+}
+
+.card.video-active .thumbnail-image {
+    opacity: 0;
+}
+
+/* 5. OVERLAY TEXT */
+.card:not(.double-height) .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: var(--text-thumb-padding-bottom) var(--text-thumb-padding-left) 0 var(--text-thumb-padding-left);
+    color: white;
+    opacity: 0;
+    transition: opacity var(--project-hover-transition);
+    z-index: 2;
+    width: var(--card-hover-text-width);
+    border-radius: var(--border-radius) var(--border-radius) 0 0; /* Kun afrund top-hjørner */
+}
+
+.card:not(.double-height):hover .overlay {
+    opacity: 1;
+}
+
+.card:not(.double-height) .overlay h3,
+.card:not(.double-height) .overlay p {
+    display: inline;
+    margin: 0;
+}
+
+/* CARD ANIMATIONS */
+@keyframes cardFadeIn {
+    0% {
+        opacity: var(--card-fade-start);
+        transform: scale(0.92) translateY(40px);  /* Start 40px nede - mere synlig */
+        z-index: -1;
+    }
+    100% {
+        opacity: var(--card-fade-end);
+        transform: scale(1) translateY(0px);  /* Slut på plads */
+        z-index: 1;
+    }
+}
+
+/* Grundlæggende animation for alle kort - starter kun når content er klar */
+.content-grid .card {
+    opacity: 0;
+    z-index: -1;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    will-change: transform, opacity;
+}
+
+/* Cards starter skjult - JavaScript styrer animationen */
+.content-grid .card {
+    opacity: 0;
+    transform: scale(0.92) translateY(40px);
+}
+
+/* TEXT WORD ANIMATION SYSTEM */
+.card.double-height .card-text:not(.animating) {
+    opacity: 0 !important;
+}
+
+.card.double-height .card-text.animating {
+    opacity: 1 !important;
+}
+
+.word-animate {
+    opacity: 0;
+    transition: opacity 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: inline;
+    will-change: opacity;
+}
+
+.word-animate.visible {
+    opacity: 1;
+}
+
+/* KATEGORI-TITLER OG SEKTIONSOVERSKRIFTER */
+.category-title {
+    position: absolute;
+    bottom: var(--category-title-spacing);
+    left: 0;
+    padding-left: calc((100dvw - (var(--card-width) * 2 + var(--card-gap))) / 2 + 20px);
+    font-family: var(--font-family);
+    font-size: 1.4em;
+    font-weight: 300;
+    letter-spacing: var(--category-title-letter-spacing);
+    color: #000;
+    text-shadow: 0 0 var(--category-title-shadow-blur) rgba(255,255,255,var(--category-title-shadow-opacity));
+    z-index: 10;
+    text-align: left;
+    width: 100%;
+}
+
+/* Side-specifikke kategori-titel styles */
+.viscom-page .category-title {
+    color: #000;
+    text-shadow: 0 0 var(--category-title-shadow-blur) rgba(255,255,255,var(--category-title-shadow-opacity));
+}
+
+.video-page .category-title,
+.uiux-page .category-title {
+    color: #fff;
+    text-shadow: 0 0 var(--category-title-shadow-blur) rgba(0,0,0,var(--category-title-shadow-opacity));
+}
+
+/* LIGHTBOX */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100dvw;
+    height: 100dvh;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    padding: clamp(16px, 3vw, 48px);
+    box-sizing: border-box;
+}
+
+.lightbox.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Klik-backdrop: fanger klik uden for mediet uden at påvirke størrelser */
+/* Container til billedet og dets kontroller */
+.lightbox-image-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: min(calc(100dvw - 48px), 1360px);
+    max-width: calc(100dvw - 48px);
+    max-height: calc(100dvh - 140px);
+    margin-bottom: 0;
+    overflow: hidden;
+    border-radius: var(--border-radius);
+}
+
+/* Billedet fylder hele containerens bredde og bevarer sin aspect ratio */
+/* Default: skjul media indtil gyldig src er sat */
+.lightbox-image,
+.lightbox-video {
+    display: none;
+}
+
+/* Synlighed styres primært via .visible klasse (mere robust end src-tilstand) */
+.lightbox-image.visible,
+.lightbox-video.visible {
+    display: block;
+}
+
+.lightbox-image:not(.visible),
+.lightbox-video:not(.visible) {
+    display: none !important;
+}
+
+.lightbox-image {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* LIGHTBOX CONTROLS */
+/* Overordnet styling for alle kontroller */
+.lightbox-nav, 
+.lightbox-close {
+    position: absolute;
+    background: none;
+    border: none;
+    cursor: pointer;
+    opacity: 0.25;
+    transition: opacity 0.3s;
+    padding: 0;
+    z-index: 20;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.lightbox-close:focus,
+.lightbox-nav:focus {
+    outline: none;
+}
+
+/* Close-knappen - placeret over billedet, ved højre kant */
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 32px;
+    color: white;
+    padding: 4px 6px;
+}
+
+/* Pil-knappen til venstre - roteret 180 grader */
+.lightbox-nav.prev {
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%) rotate(180deg);
+    width: 40px;
+    height: 40px;
+    background-image: url('images/arrow-right.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Pil-knappen til højre */
+.lightbox-nav.next {
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background-image: url('images/arrow-right.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+/* Hover-effekt for knapperne */
+.lightbox-close:hover,
+.lightbox-nav:hover {
+    opacity: 1; /* 100% på rollover */
+}
+
+/* Billedteksten placeres under billedområdet */
+.lightbox-caption {
+    color: white;
+    text-align: center;
+    max-width: min(720px, calc(100dvw - 48px));
+    margin-top: 18px;
+}
+
+.lightbox-caption h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+.lightbox-caption p {
+    margin-top: 5px;
+}
+
+.lightbox-video {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Specifik video lightbox styling kun for video-siden */
+.video-page .lightbox-image-container {
+    max-width: calc(100dvw - 48px);
+    max-height: calc(100dvh - 140px);
+}
+
+.video-page .lightbox-video.visible {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+/* MOTION HERO */
+.motion-hero {
+    position: relative;
+    width: 100vw;
+    height: 56.25vw;  /* 16:9 aspect ratio (9/16 = 0.5625) */
+    overflow: hidden;
+    margin-left: calc((100% - 100vw) / 2);
+}
+
+.motion-hero video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 1;
+    transition: none !important;  /* Ingen transitions overhovedet */
+    opacity: 1 !important;  /* Forbliv altid synlig */
+}
+
+.motion-hero video.paused {
+    opacity: 1;
+    transition: none;
+}
+
+.motion-hero.half-height {
+    height: 28.125vw !important;  /* Tvinger højde med !important */
+}
+
+/* VIDEO CONTROLS */
+.video-controls {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.video-control {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.85);  /* 85% opacity */
+    border: none;
+    padding: 4px 12px;  /* Mere padding */
+    font-size: 13px;    /* Større tekst */
+    font-family: var(--font-family);
+    color: #000;
+    cursor: pointer;
+    border-radius: 5px;  /* Afrundede hjørner */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  /* Svag skygge */
+}
+
+.video-control-wrapper {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* PLACEHOLDERS */
+.card.placeholder {
+    background: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #999;
+    position: relative;  /* For at sikre at overlay virker */
+}
+
+/* Vis overlay tekst på hover */
+.card.placeholder:hover .overlay {
+    opacity: 1;
+}
+
+/* Tilføj hover effekt på placeholder */
+.card.placeholder:hover {
+    background: #d0d0d0;
+}
+
+/* MULTIPLE ROWS */
+.content-grid.second-row {
+    margin-top: var(--card-gap); /* Spacing between rows */
+}
+
+/* TOUCH DEVICE HANDLING */
+@media (hover: none) {
+    .card:not(.double-height):hover img,
+    .card:not(.double-height):hover::after,
+    .card:not(.double-height):hover .overlay {
+        transform: none;
+        filter: none;
+        background: none;
+        opacity: 0;
+    }
+
+    .card:not(.double-height):active img {
+        transform: scale(var(--hover-scale));
+        filter: blur(3px);
+    }
+
+    .card:not(.double-height):active::after {
+        background: var(--hover-overlay);
+    }
+
+    .card:not(.double-height):active .overlay {
+        opacity: 1;
+    }
+}
+
+/* BLANK SPACE I BUNDEN AF UNDERSIDER */
+body:not(.home-page) {
+    padding-bottom: 500px;
+}
+
+/* RESPONSIVE - MOBILE */
+@media (max-width: 768px) {
+    /* Mobile spacing uses consistent mobile padding */
+    :root {
+        --card-gap: var(--mobile-padding);
+    }
+    
+    /* Logo */
+    .logo-card {
+        width: calc(100% - 20px);
+        margin: 0 auto;
+        padding: 15px 10px 10px 10px;  /* Symmetrisk padding: 15px top, 10px bottom */
+        margin-top: 0;  /* Fjern margin-top da header nu er fixed */
+    }
+    
+    /* Sticky header mobile styling - arver farve fra hovedsystem */
+
+    .logo-card img {
+        max-height: calc(var(--logo-max-height) * 0.6);  /* Smaller logo on mobile */
+    }
+    
+    /* Hero */
+    .hero-content {
+        padding-left: 0;
+        justify-content: center;
+    }
+    
+    .text-container {
+        width: calc(100% - 40px); /* 20px on each side */
+        max-width: min(600px, 90vw);
+    }
+
+    .hero h1 {
+        text-align: center;
+    }
+    
+    .content-grid {
+        grid-template-columns: var(--mobile-padding) 1fr var(--mobile-padding);
+        grid-column-gap: 0;
+        padding-top: 0;  /* Fjernet padding-top da hero nu har margin-bottom */
+    }
+
+    .left-column,
+    .right-column {
+        grid-column: 2 / 3;
+        width: 100%;
+        gap: var(--card-gap); /* Konsistent gap på mobil */
+    }
+    
+    /* På mobil, vis alle kort i en enkelt kolonne */
+    @supports (display: contents) {
+        .left-column, 
+        .right-column {
+            display: contents;
+        }
+        
+        .content-grid {
+            display: flex;
+            flex-direction: column;
+            padding: 0 var(--mobile-padding);
+            gap: var(--card-gap); /* Brug --card-gap til vertikal afstand */
+        }
+        
+        /* Projektsider bruger reduceret gap på mobil */
+        .xrpa .content-grid,
+        .viscom-page .content-grid {
+            gap: var(--card-gap);
+        }
+    }
+
+    .card {
+        width: 100%;
+        margin-bottom: 0; /* Fjern margin, gap håndterer afstand */
+    }
+    
+    /* Home page cards specifikke indstillinger */
+    .home-page .card:not(.double-height) {
+        height: var(--card-height);
+        margin-bottom: 0;
+    }
+    
+    /* Projektside kort */
+    .card:not(.double-height):not(.home-page .card) {
+        margin-bottom: 0;
+    }
+    
+    /* Specielle regler for xrpa og viscom sider - margin-bottom fjernes da vi bruger gap i parent */
+    .xrpa .card:not(.double-height),
+    .viscom-page .card:not(.double-height) {
+        margin-bottom: 0; /* Ingen margin - bruger gap i parent container */
+    }
+
+    /* Card order on mobile */
+    .left-column .card.double-height { order: 0; }  /* Text card (#1) */
+    .right-column .card:nth-child(1) { order: 1; }  /* UI/UX (#2) */
+    .right-column .card:nth-child(2) { order: 2; }  /* Visual Communication (#3) */
+    .left-column .card:nth-child(2) { order: 3; }   /* AI (#4) */
+    .right-column .card:nth-child(3) { order: 4; }  /* Motion Design (#5) */
+    
+    /* Reorder cards in second-row - only relevant for subpages */
+    .content-grid.second-row {
+        margin-top: 0; /* Remove extra margin on mobile */
+    }
+    
+    .content-grid.second-row .left-column .card { order: 5; }  /* Start at index 5 to avoid conflict with main page */
+    .content-grid.second-row .right-column .card { order: 6; }
+
+    /* Text cards */
+    .card.double-height {
+        height: auto;
+        min-height: 0; /* Remove min-height so card can adapt to content */
+    }
+    
+    /* Ensure text box adapts as well */
+    .card-text {
+        height: auto;
+        padding-bottom: var(--text-card-padding); /* Consistent padding */
+    }
+
+    /* Ensure all thumbnails on mobile have full width */
+    .card .thumbnail-image {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+    
+    /* Category title */
+    .category-title {
+        padding-left: var(--mobile-padding);
+        font-size: 1.5rem;
+    }
+    
+    /* Motion hero */
+    .motion-hero {
+        margin-left: 0;
+    }
+    
+    /* Footer mobile */
+    .footer {
+        font-size: 10px; /* Mindre tekst på mobil */
+        padding: 10px 0; /* Mindre padding */
+    }
+}
+
+/* RESPONSIVE - MEDIUM SCREENS */
+@media (min-width: 769px) and (max-width: 1219px) {
+    :root {
+        /* Juster card width baseret på skærmbredde */
+        --card-width: calc((100vw - var(--card-gap) - 40px) / 2);
+        /* Bevar aspect ratio 1.5:1 (600px:400px) */
+        --card-height: calc(var(--card-width) / 1.5);
+    }
+    
+    .content-grid {
+        grid-template-columns: 20px var(--card-width) var(--card-gap) var(--card-width) 20px;
+    }
+    
+    .logo-card {
+        width: 100%;
+        margin-left: 20px;
+    }
+    
+    /* Sticky header responsive for medium screens */
+    .header.scrolled::before {
+        background: rgba(255, 255, 255, 0.85);
+    }
+    
+    /* Centrér hero-sektion for mellemstore skærme */
+    .hero-content {
+        padding-left: 0;
+        justify-content: center;
+    }
+    
+    .text-container {
+        width: min(calc(var(--card-width) * 1.5), 80vw);
+        max-width: 100%;
+        padding: 0 20px;
+    }
+    
+    .hero h1 {
+        text-align: center;
+    }
+    
+    /* Centrér videoer til mellemstore skærme */
+    .slide video {
+        object-position: center center;
+    }
+    
+    .slide {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 1220px) and (min-width: 769px) {
+    .logo-card {
+        width: calc(100% - 40px);
+        margin-left: 20px;  /* Konsistent med tablet range 1 */
+    }
+}
+
+/* Fanger både direkte tekst og tekst i p-tags */
+/* Card order on mobile */
+/* Text card always first, resten styres af data-mobile-order attributter */
+.left-column .card.double-height { order: 0; }  /* Text card always first */
+
+/* Dette tillader at JavaScript kan styre rækkefølgen */
+.card[data-mobile-order] { order: var(--mobile-order) !important; }
+
+/* Reorder cards in second-row - only relevant for subpages */
+.content-grid.second-row {
+    margin-top: 0; /* Remove extra margin on mobile */
+}
+
+.content-grid.second-row .left-column .card { order: 5; }  /* Start at index 5 to avoid conflict with main page */
+.content-grid.second-row .right-column .card { order: 6; }
+
+/* Footer styling */
+.footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 0;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 300;
+    background: var(--text-card-bg-bottom);
+    color: var(--text-card-text);
+    z-index: 5;
+    height: calc(var(--global-bottom-padding) - 30px); /* Tilpasser højden i forhold til global padding */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0.02em; /* Tilføjer lidt mere luft mellem bogstaverne */
+    opacity: 0.9; /* Gør den lidt mere subtil */
+}
+
+/* Footer dark mode */
+body[data-background-color="#000000"] .footer,
+body[data-background-color="#081c32"] .footer,
+body[data-background-color="#201e1f"] .footer,
+body[data-background-color="#121212"] .footer,
+body.xrpa .footer {
+    background: var(--text-card-bg-bottom-dark);
+    color: var(--text-card-text-dark);
+}
+
+/* Footer fjernet */
+
+/* Footer dark mode */
+body[data-background-color="#000000"]::after,
+body[data-background-color="#081c32"]::after,
+body[data-background-color="#201e1f"]::after,
+body[data-background-color="#121212"]::after,
+body.xrpa::after {
+    background: var(--text-card-bg-bottom-dark);
+    color: var(--text-card-text-dark);
+    /* opacity allerede styret via hovedfooter */
+}
+
+/* Responsiv footer */
+@media (max-width: 768px) {
+    body::after {
+        font-size: 9px;
+        height: 25px;
+    }
+} 
+.motion-hero hr {
+    height: 1px;
+    border: none;
+    background: currentColor;
+    opacity: 0.4;
+}

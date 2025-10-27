@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Work Sans Type Specimen</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            color-scheme: light dark;
+            --bg-page: #f3f3f3;
+            --bg-card: #ffffff;
+            --bg-card-dark: #101012;
+            --text-default: #0f0f14;
+            --text-inverse: #f5f7fa;
+            --border-radius: 18px;
+            --gutter: clamp(1.25rem, 3vw, 2.5rem);
+            font-family: "Work Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: calc(var(--gutter) * 0.75) var(--gutter) var(--gutter);
+            background: radial-gradient(circle at 10% 10%, rgba(255,255,255,0.9), transparent 55%), var(--bg-page);
+            color: var(--text-default);
+        }
+
+        header {
+            max-width: 960px;
+            margin: 0 auto var(--gutter);
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        header h1 {
+            font-weight: 600;
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin: 0;
+        }
+
+        header p {
+            margin: 0;
+            font-size: 1rem;
+            line-height: 1.5;
+            color: rgba(15, 15, 20, 0.75);
+        }
+
+        main {
+            display: grid;
+            gap: var(--gutter);
+            max-width: 1200px;
+            margin: 0 auto var(--gutter);
+        }
+
+        .weight-block {
+            display: grid;
+            gap: 1rem clamp(1rem, 3vw, 1.5rem);
+        }
+
+        .weight-block > h2 {
+            margin: 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: rgba(15, 15, 20, 0.6);
+        }
+
+        .swatches {
+            display: grid;
+            gap: clamp(1rem, 2vw, 1.5rem);
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        }
+
+        .swatch {
+            border-radius: var(--border-radius);
+            padding: clamp(1.25rem, 2vw, 1.75rem);
+            display: grid;
+            gap: clamp(1rem, 2vw, 1.5rem);
+            box-shadow: 0 18px 45px rgba(15, 15, 30, 0.08);
+        }
+
+        .swatch.light {
+            background: var(--bg-card);
+            color: var(--text-default);
+        }
+
+        .swatch.dark {
+            background: var(--bg-card-dark);
+            color: var(--text-inverse);
+        }
+
+        .swatch header {
+            margin: 0;
+            display: grid;
+            gap: 0.25rem;
+        }
+
+        .swatch header h3 {
+            margin: 0;
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .swatch header span {
+            font-size: 0.85rem;
+            color: inherit;
+            opacity: 0.6;
+        }
+
+        .sample {
+            display: grid;
+            gap: 0.4rem;
+        }
+
+        .meta {
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            opacity: 0.6;
+        }
+
+        .text {
+            line-height: 1.1;
+            font-weight: var(--specimen-weight, 400);
+        }
+
+        .role-display .text {
+            font-size: clamp(3.5rem, 7vw, 4.75rem);
+            line-height: 1.02;
+        }
+
+        .role-heading .text {
+            font-size: clamp(2.4rem, 4.5vw, 3rem);
+            line-height: 1.08;
+        }
+
+        .role-primary .text {
+            font-size: clamp(1.1rem, 2vw, 1.25rem);
+            line-height: 1.45;
+        }
+
+        .role-label .text {
+            font-size: clamp(0.75rem, 1.6vw, 0.85rem);
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            line-height: 1.3;
+        }
+
+        .role-emphasis .text {
+            font-size: clamp(1.1rem, 2vw, 1.25rem);
+            line-height: 1.45;
+        }
+
+        .weight-100 .sample .text,
+        .weight-200 .sample .text {
+            letter-spacing: 0.01em;
+        }
+
+        .swatch.dark .weight-100 .sample .text,
+        .swatch.dark .weight-200 .sample .text {
+            letter-spacing: 0.018em;
+        }
+
+        .weight-100 { --specimen-weight: 100; }
+        .weight-200 { --specimen-weight: 200; }
+        .weight-300 { --specimen-weight: 300; }
+        .weight-400 { --specimen-weight: 400; }
+        .weight-500 { --specimen-weight: 500; }
+        .weight-600 { --specimen-weight: 600; }
+        .weight-700 { --specimen-weight: 700; }
+        .weight-800 { --specimen-weight: 800; }
+        .weight-900 { --specimen-weight: 900; }
+
+        footer {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: var(--gutter) 0;
+            font-size: 0.9rem;
+            color: rgba(15, 15, 20, 0.6);
+            line-height: 1.5;
+        }
+
+        @media (max-width: 720px) {
+            header, footer {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Work Sans · Type Specimen</h1>
+        <p>
+            Quick reference for Work Sans weights from 100 to 900 across key text roles. Each weight is shown on both light and dark backgrounds so you can evaluate contrast, tracking, and perceived weight shifts. Sample text:
+            “Sphinx of black quartz, judge my vow – 0123456789”.
+        </p>
+    </header>
+
+    <main>
+        <!-- Weight blocks -->
+        <!-- Generate blocks for 100 to 900 -->
+        <!-- weight 100 -->
+        <section class="weight-block weight-100" aria-labelledby="weight-100">
+            <h2 id="weight-100">Weight 100 · Thin</h2>
+            <div class="swatches">
+                <article class="swatch light">
+                    <header>
+                        <h3>Light background</h3>
+                        <span>#FFFFFF · Text #0F0F14</span>
+                    </header>
+                    <div class="sample role-display">
+                        <span class="meta">Display · 100 · 72 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow — 0123456789</span>
+                    </div>
+                    <div class="sample role-heading">
+                        <span class="meta">Heading · 100 · 40 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-primary">
+                        <span class="meta">Primary · 100 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-label">
+                        <span class="meta">Label · 100 · 14 px</span>
+                        <span class="text">Sphinx of black quartz</span>
+                    </div>
+                    <div class="sample role-emphasis">
+                        <span class="meta">Emphasis · 100 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                </article>
+                <article class="swatch dark">
+                    <header>
+                        <h3>Dark background</h3>
+                        <span>#101012 · Text #F5F7FA</span>
+                    </header>
+                    <div class="sample role-display">
+                        <span class="meta">Display · 100 · 72 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow — 0123456789</span>
+                    </div>
+                    <div class="sample role-heading">
+                        <span class="meta">Heading · 100 · 40 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-primary">
+                        <span class="meta">Primary · 100 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-label">
+                        <span class="meta">Label · 100 · 14 px</span>
+                        <span class="text">Sphinx of black quartz</span>
+                    </div>
+                    <div class="sample role-emphasis">
+                        <span class="meta">Emphasis · 100 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- weight 200 -->
+        <section class="weight-block weight-200" aria-labelledby="weight-200">
+            <h2 id="weight-200">Weight 200 · Extra Light</h2>
+            <div class="swatches">
+                <article class="swatch light">
+                    <header>
+                        <h3>Light background</h3>
+                        <span>#FFFFFF · Text #0F0F14</span>
+                    </header>
+                    <div class="sample role-display">
+                        <span class="meta">Display · 200 · 72 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow — 0123456789</span>
+                    </div>
+                    <div class="sample role-heading">
+                        <span class="meta">Heading · 200 · 40 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-primary">
+                        <span class="meta">Primary · 200 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-label">
+                        <span class="meta">Label · 200 · 14 px</span>
+                        <span class="text">Sphinx of black quartz</span>
+                    </div>
+                    <div class="sample role-emphasis">
+                        <span class="meta">Emphasis · 200 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                </article>
+                <article class="swatch dark">
+                    <header>
+                        <h3>Dark background</h3>
+                        <span>#101012 · Text #F5F7FA</span>
+                    </header>
+                    <div class="sample role-display">
+                        <span class="meta">Display · 200 · 72 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow — 0123456789</span>
+                    </div>
+                    <div class="sample role-heading">
+                        <span class="meta">Heading · 200 · 40 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-primary">
+                        <span class="meta">Primary · 200 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-label">
+                        <span class="meta">Label · 200 · 14 px</span>
+                        <span class="text">Sphinx of black quartz</span>
+                    </div>
+                    <div class="sample role-emphasis">
+                        <span class="meta">Emphasis · 200 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- weight 300 -->
+        <section class="weight-block weight-300" aria-labelledby="weight-300">
+            <h2 id="weight-300">Weight 300 · Light</h2>
+            <div class="swatches">
+                <article class="swatch light">
+                    <header>
+                        <h3>Light background</h3>
+                        <span>#FFFFFF · Text #0F0F14</span>
+                    </header>
+                    <div class="sample role-display">
+                        <span class="meta">Display · 300 · 72 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow — 0123456789</span>
+                    </div>
+                    <div class="sample role-heading">
+                        <span class="meta">Heading · 300 · 40 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-primary">
+                        <span class="meta">Primary · 300 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-label">
+                        <span class="meta">Label · 300 · 14 px</span>
+                        <span class="text">Sphinx of black quartz</span>
+                    </div>
+                    <div class="sample role-emphasis">
+                        <span class="meta">Emphasis · 300 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                </article>
+                <article class="swatch dark">
+                    <header>
+                        <h3>Dark background</h3>
+                        <span>#101012 · Text #F5F7FA</span>
+                    </header>
+                    <div class="sample role-display">
+                        <span class="meta">Display · 300 · 72 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow — 0123456789</span>
+                    </div>
+                    <div class="sample role-heading">
+                        <span class="meta">Heading · 300 · 40 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-primary">
+                        <span class="meta">Primary · 300 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-label">
+                        <span class="meta">Label · 300 · 14 px</span>
+                        <span class="text">Sphinx of black quartz</span>
+                    </div>
+                    <div class="sample role-emphasis">
+                        <span class="meta">Emphasis · 300 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- weight 400 -->
+        <section class="weight-block weight-400" aria-labelledby="weight-400">
+            <h2 id="weight-400">Weight 400 · Regular</h2>
+            <div class="swatches">
+                <article class="swatch light">
+                    <header>
+                        <h3>Light background</h3>
+                        <span>#FFFFFF · Text #0F0F14</span>
+                    </header>
+                    <div class="sample role-display">
+                        <span class="meta">Display · 400 · 72 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow — 0123456789</span>
+                    </div>
+                    <div class="sample role-heading">
+                        <span class="meta">Heading · 400 · 40 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-primary">
+                        <span class="meta">Primary · 400 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-label">
+                        <span class="meta">Label · 400 · 14 px</span>
+                        <span class="text">Sphinx of black quartz</span>
+                    </div>
+                    <div class="sample role-emphasis">
+                        <span class="meta">Emphasis · 400 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                </article>
+                <article class="swatch dark">
+                    <header>
+                        <h3>Dark background</h3>
+                        <span>#101012 · Text #F5F7FA</span>
+                    </header>
+                    <div class="sample role-display">
+                        <span class="meta">Display · 400 · 72 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow — 0123456789</span>
+                    </div>
+                    <div class="sample role-heading">
+                        <span class="meta">Heading · 400 · 40 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-primary">
+                        <span class="meta">Primary · 400 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-label">
+                        <span class="meta">Label · 400 · 14 px</span>
+                        <span class="text">Sphinx of black quartz</span>
+                    </div>
+                    <div class="sample role-emphasis">
+                        <span class="meta">Emphasis · 400 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- weight 500 -->
+        <section class="weight-block weight-500" aria-labelledby="weight-500">
+            <h2 id="weight-500">Weight 500 · Medium</h2>
+            <div class="swatches">
+                <article class="swatch light">
+                    <header>
+                        <h3>Light background</h3>
+                        <span>#FFFFFF · Text #0F0F14</span>
+                    </header>
+                    <div class="sample role-display">
+                        <span class="meta">Display · 500 · 72 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow — 0123456789</span>
+                    </div>
+                    <div class="sample role-heading">
+                        <span class="meta">Heading · 500 · 40 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-primary">
+                        <span class="meta">Primary · 500 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-label">
+                        <span class="meta">Label · 500 · 14 px</span>
+                        <span class="text">Sphinx of black quartz</span>
+                    </div>
+                    <div class="sample role-emphasis">
+                        <span class="meta">Emphasis · 500 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                </article>
+                <article class="swatch dark">
+                    <header>
+                        <h3>Dark background</h3>
+                        <span>#101012 · Text #F5F7FA</span>
+                    </header>
+                    <div class="sample role-display">
+                        <span class="meta">Display · 500 · 72 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow — 0123456789</span>
+                    </div>
+                    <div class="sample role-heading">
+                        <span class="meta">Heading · 500 · 40 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-primary">
+                        <span class="meta">Primary · 500 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-label">
+                        <span class="meta">Label · 500 · 14 px</span>
+                        <span class="text">Sphinx of black quartz</span>
+                    </div>
+                    <div class="sample role-emphasis">
+                        <span class="meta">Emphasis · 500 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- weight 600 -->
+        <section class="weight-block weight-600" aria-labelledby="weight-600">
+            <h2 id="weight-600">Weight 600 · Semi Bold</h2>
+            <div class="swatches">
+                <article class="swatch light">
+                    <header>
+                        <h3>Light background</h3>
+                        <span>#FFFFFF · Text #0F0F14</span>
+                    </header>
+                    <div class="sample role-display">
+                        <span class="meta">Display · 600 · 72 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow — 0123456789</span>
+                    </div>
+                    <div class="sample role-heading">
+                        <span class="meta">Heading · 600 · 40 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-primary">
+                        <span class="meta">Primary · 600 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-label">
+                        <span class="meta">Label · 600 · 14 px</span>
+                        <span class="text">Sphinx of black quartz</span>
+                    </div>
+                    <div class="sample role-emphasis">
+                        <span class="meta">Emphasis · 600 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                </article>
+                <article class="swatch dark">
+                    <header>
+                        <h3>Dark background</h3>
+                        <span>#101012 · Text #F5F7FA</span>
+                    </header>
+                    <div class="sample role-display">
+                        <span class="meta">Display · 600 · 72 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow — 0123456789</span>
+                    </div>
+                    <div class="sample role-heading">
+                        <span class="meta">Heading · 600 · 40 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-primary">
+                        <span class="meta">Primary · 600 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-label">
+                        <span class="meta">Label · 600 · 14 px</span>
+                        <span class="text">Sphinx of black quartz</span>
+                    </div>
+                    <div class="sample role-emphasis">
+                        <span class="meta">Emphasis · 600 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- weight 700 -->
+        <section class="weight-block weight-700" aria-labelledby="weight-700">
+            <h2 id="weight-700">Weight 700 · Bold</h2>
+            <div class="swatches">
+                <article class="swatch light">
+                    <header>
+                        <h3>Light background</h3>
+                        <span>#FFFFFF · Text #0F0F14</span>
+                    </header>
+                    <div class="sample role-display">
+                        <span class="meta">Display · 700 · 72 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow — 0123456789</span>
+                    </div>
+                    <div class="sample role-heading">
+                        <span class="meta">Heading · 700 · 40 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-primary">
+                        <span class="meta">Primary · 700 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-label">
+                        <span class="meta">Label · 700 · 14 px</span>
+                        <span class="text">Sphinx of black quartz</span>
+                    </div>
+                    <div class="sample role-emphasis">
+                        <span class="meta">Emphasis · 700 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                </article>
+                <article class="swatch dark">
+                    <header>
+                        <h3>Dark background</h3>
+                        <span>#101012 · Text #F5F7FA</span>
+                    </header>
+                    <div class="sample role-display">
+                        <span class="meta">Display · 700 · 72 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow — 0123456789</span>
+                    </div>
+                    <div class="sample role-heading">
+                        <span class="meta">Heading · 700 · 40 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-primary">
+                        <span class="meta">Primary · 700 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-label">
+                        <span class="meta">Label · 700 · 14 px</span>
+                        <span class="text">Sphinx of black quartz</span>
+                    </div>
+                    <div class="sample role-emphasis">
+                        <span class="meta">Emphasis · 700 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- weight 800 -->
+        <section class="weight-block weight-800" aria-labelledby="weight-800">
+            <h2 id="weight-800">Weight 800 · Extra Bold</h2>
+            <div class="swatches">
+                <article class="swatch light">
+                    <header>
+                        <h3>Light background</h3>
+                        <span>#FFFFFF · Text #0F0F14</span>
+                    </header>
+                    <div class="sample role-display">
+                        <span class="meta">Display · 800 · 72 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow — 0123456789</span>
+                    </div>
+                    <div class="sample role-heading">
+                        <span class="meta">Heading · 800 · 40 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-primary">
+                        <span class="meta">Primary · 800 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-label">
+                        <span class="meta">Label · 800 · 14 px</span>
+                        <span class="text">Sphinx of black quartz</span>
+                    </div>
+                    <div class="sample role-emphasis">
+                        <span class="meta">Emphasis · 800 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                </article>
+                <article class="swatch dark">
+                    <header>
+                        <h3>Dark background</h3>
+                        <span>#101012 · Text #F5F7FA</span>
+                    </header>
+                    <div class="sample role-display">
+                        <span class="meta">Display · 800 · 72 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow — 0123456789</span>
+                    </div>
+                    <div class="sample role-heading">
+                        <span class="meta">Heading · 800 · 40 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-primary">
+                        <span class="meta">Primary · 800 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-label">
+                        <span class="meta">Label · 800 · 14 px</span>
+                        <span class="text">Sphinx of black quartz</span>
+                    </div>
+                    <div class="sample role-emphasis">
+                        <span class="meta">Emphasis · 800 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- weight 900 -->
+        <section class="weight-block weight-900" aria-labelledby="weight-900">
+            <h2 id="weight-900">Weight 900 · Black</h2>
+            <div class="swatches">
+                <article class="swatch light">
+                    <header>
+                        <h3>Light background</h3>
+                        <span>#FFFFFF · Text #0F0F14</span>
+                    </header>
+                    <div class="sample role-display">
+                        <span class="meta">Display · 900 · 72 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow — 0123456789</span>
+                    </div>
+                    <div class="sample role-heading">
+                        <span class="meta">Heading · 900 · 40 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-primary">
+                        <span class="meta">Primary · 900 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-label">
+                        <span class="meta">Label · 900 · 14 px</span>
+                        <span class="text">Sphinx of black quartz</span>
+                    </div>
+                    <div class="sample role-emphasis">
+                        <span class="meta">Emphasis · 900 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                </article>
+                <article class="swatch dark">
+                    <header>
+                        <h3>Dark background</h3>
+                        <span>#101012 · Text #F5F7FA</span>
+                    </header>
+                    <div class="sample role-display">
+                        <span class="meta">Display · 900 · 72 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow — 0123456789</span>
+                    </div>
+                    <div class="sample role-heading">
+                        <span class="meta">Heading · 900 · 40 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-primary">
+                        <span class="meta">Primary · 900 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                    <div class="sample role-label">
+                        <span class="meta">Label · 900 · 14 px</span>
+                        <span class="text">Sphinx of black quartz</span>
+                    </div>
+                    <div class="sample role-emphasis">
+                        <span class="meta">Emphasis · 900 · 18 px</span>
+                        <span class="text">Sphinx of black quartz, judge my vow</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        Review each weight to decide which ranges work best for heroes, headings, body text, and UI labels in your project. Adjust letter-spacing and weight deltas per theme as needed before rolling changes into the production styles.
+    </footer>
+</body>
+</html>

@@ -20,6 +20,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const isIndexPage = window.location.pathname.endsWith('index.html') || window.location.pathname === '/';
     const slides = document.querySelectorAll('.slide');
     const isStaticPage = document.body.classList.contains('static-page') || slides.length === 1;
+    const heroText = document.getElementById('hero-text');
+    const heroInitialState = heroText ? {
+        html: heroText.innerHTML,
+        color: getComputedStyle(heroText).color
+    } : null;
     let staticContentInitialized = false;
     let heroSequenceStarted = false;
     let heroStartQueued = false;
@@ -744,10 +749,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
         window.cardsReady = true;
         window.hoverEffectsEnabled = true;
-        heroSequenceStarted = true;
-        heroStartQueued = true;
-        contentCascadeStarted = true;
+        // Nulstil animation flags så animationerne kan starte igen
+        contentCascadeStarted = false;
+        staticContentInitialized = false;
         scheduleLoaderHide.scheduled = true;
+
+        if (isStaticPage) {
+            heroSequenceStarted = true;
+            heroStartQueued = true;
+        } else {
+            heroSequenceStarted = false;
+            heroStartQueued = false;
+        }
 
         const hero = document.querySelector('.hero');
         if (hero) {
@@ -756,7 +769,6 @@ document.addEventListener('DOMContentLoaded', function() {
             hero.style.removeProperty('opacity');
         }
 
-        const heroText = document.getElementById('hero-text');
         if (heroText) {
             heroText.classList.remove('blur');
             heroText.style.removeProperty('opacity');
@@ -789,7 +801,48 @@ document.addEventListener('DOMContentLoaded', function() {
 
         stopLoaderAnimation();
         cacheLinkColorData();
-        heroSequenceStarted = true;
+        if (typeof applyTextCardColorScheme === 'function') {
+            applyTextCardColorScheme();
+        }
+
+        resetHeroStateForHistory();
+
+        // Nulstil kortene så de kan animeres igen
+        const allCards = document.querySelectorAll('.content-grid .card');
+        allCards.forEach(card => {
+            // Fjern inline styles så kortene går tilbage til CSS initial state (opacity: 0, transform: scale(0.92) translateY(40px))
+            card.style.animation = '';
+            card.style.opacity = '';
+            card.style.transform = '';
+            // Fjern visible klasse fra word-animate spans hvis de findes
+            const wordSpans = card.querySelectorAll('.word-animate.visible');
+            wordSpans.forEach(span => span.classList.remove('visible'));
+            // Fjern animating klasse fra card-text
+            const cardText = card.querySelector('.card-text');
+            if (cardText) {
+                cardText.classList.remove('animating');
+            }
+        });
+
+        // Start card animations igen - nulstil først så de kan starte
+        if (isStaticPage) {
+            startStaticContentAnimation();
+            
+            // Start hero video på statiske sider
+            const firstSlide = slides[0];
+            if (firstSlide) {
+                const video = firstSlide.querySelector('video');
+                if (video) {
+                    ensureVideoPlayback(video);
+                }
+            }
+        } else {
+            startContentCascade();
+        }
+
+        if (!isStaticPage) {
+            queueHeroStart('history-nav');
+        }
 
         if (!isStaticPage) {
             const firstVideo = document.querySelector('.slide video');
@@ -802,6 +855,52 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         debug('Restored from history navigation', { source });
+    }
+
+    function resetHeroStateForHistory() {
+        if (!heroText) return;
+
+        if (isStaticPage) {
+            heroText.classList.remove('blur');
+            heroText.style.removeProperty('filter');
+            heroText.style.removeProperty('transition');
+            heroText.style.opacity = '1';
+            return;
+        }
+
+        if (!isIndexPage) return;
+
+        heroText.classList.remove('blur');
+        heroText.style.removeProperty('filter');
+        heroText.style.removeProperty('transition');
+
+        if (heroInitialState) {
+            heroText.innerHTML = heroInitialState.html;
+            heroText.style.color = heroInitialState.color;
+        }
+
+        heroText.style.opacity = '1';
+
+        slides.forEach((slide, index) => {
+            if (!slide) return;
+            slide.style.removeProperty('transition');
+            slide.style.opacity = index === 0 ? '1' : '0';
+            slide.style.zIndex = index === 0 ? '0' : '';
+        });
+
+        if (window.timeline && Array.isArray(window.timeline.slides) && window.timeline.slides.length) {
+            window.timeline.currentIndex = 0;
+        }
+
+        const firstSlideVideo = slides[0] ? slides[0].querySelector('video') : null;
+        if (firstSlideVideo) {
+            try {
+                firstSlideVideo.currentTime = 0;
+            } catch (err) {
+                /* ignore reset errors */
+            }
+            ensureVideoPlayback(firstSlideVideo);
+        }
     }
 
     function shouldRestoreFromPerformance() {
@@ -838,7 +937,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Globale variabler
     const logo = document.getElementById('dynamic-logo');
-    const heroText = document.getElementById('hero-text');
     
     // Markér straks kort med video med en klasse (TIDLIGT i indlæsningsprocessen)
     document.querySelectorAll('.card:not(.double-height)').forEach(card => {
@@ -1039,8 +1137,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // TJEK FOR VIDEO OG START DEN
             const video = firstSlide.querySelector('video');
             if (video) {
-
-                video.play();
+                ensureVideoPlayback(video);
             }
         }
         if (heroText) {

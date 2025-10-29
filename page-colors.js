@@ -3,23 +3,23 @@
 
 // Farvekonstanter
 const PAGE_COLORS = {
-    'index.html': '#F9F9F9',           // Lysegrå til hovedsiden
+    'index.html': '#F9F9F9',   // Lysegrå til hovedsiden
     'proj-motion.html': '#121212',     // Sort til motion design
     'proj-ai-video.html': '#201e1f',   // Mørk til AI-projektsiden
     'proj-xrpa.html': '#081c32',       // Mørkeblå til XRPA projektsiden
     'proj-nqs.html': '#000000',        // Sort baggrund til NQS projektsiden
-    'proj-confidential.html': '#8C8C8C', // Grå baggrund til confidential projektsiden
+    'brandsandagencies.html': '#8C8C8C', // Grå baggrund til Brands & Agencies
     'proj-regapp.html': '#262626'      // Mørk grå til RegApp projektsiden
 };
 
 // Logo definitioner (true = dark logo, false = light/white logo)
 const LOGO_COLORS = {
-    'index.html': true,               // Mørkt logo på index (lys baggrund)
+    'index.html': true,       // Mørkt logo på portfolio forsiden
     'proj-motion.html': false,        // Lyst logo på motion projekt (mørk baggrund)
     'proj-ai-video.html': false,      // Lyst logo på AI projekt (mørk baggrund)
     'proj-xrpa.html': false,          // Lyst logo på mørk baggrund (mørkeblå)
     'proj-nqs.html': false,           // Lyst logo på mørk baggrund (sort)
-    'proj-confidential.html': false,   // Lyst logo på grå baggrund
+    'brandsandagencies.html': false,   // Lyst logo på grå baggrund
     'proj-regapp.html': false          // Lyst logo på mørk grå baggrund
 };
 
@@ -29,7 +29,7 @@ const DARK_BACKGROUND_PAGES = {
     'proj-ai-video.html': true,      // AI projekt har mørk baggrund
     'proj-xrpa.html': true,          // XRPA har mørk baggrund (mørkeblå)
     'proj-nqs.html': true,           // NQS har mørk baggrund (sort)
-    'proj-confidential.html': true,   // Confidential har mørk (grå) baggrund
+    'brandsandagencies.html': true,   // Confidential har mørk (grå) baggrund
     'proj-regapp.html': true          // RegApp har mørk baggrund
 };
 

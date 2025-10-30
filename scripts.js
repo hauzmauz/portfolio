@@ -31,14 +31,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let contentCascadeStarted = false;
 
     // START INTELLIGENT LOADING SYSTEM
-    try {
-        console.time?.('HeroReady');
-    } catch (err) {
-        /* no-op */
-    }
-    const heroReadyPromise = monitorHeroReadiness();
-    heroReadyPromise.then(reason => queueHeroStart(reason || 'hero-ready'));
-    
     startIntelligentLoading();
     
     // GLOBAL BACKUP FAILSAFE: Start page after 8 seconds no matter what
@@ -57,7 +49,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // Start content animation manually - ALSO trigger hero animation
             if (isIndexPage && !isStaticPage) {
                 // Trigger hero animation first, then content cascade
-                queueHeroStart('global-failsafe');
+                if (window.startAllAnimations) {
+                    window.startAllAnimations();
+                }
                 startContentCascade();
             } else {
                 startStaticContentAnimation();
@@ -241,7 +235,17 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.classList.add('hover-effects-ready');
         
         // Start hero animations if on index page - ENSURE first video is ready
-        queueHeroStart('loader-complete');
+        if (isIndexPage && !isStaticPage) {
+            const firstVideo = document.querySelector('.slide video');
+            if (firstVideo && firstVideo.readyState >= 1) {
+                window.startAllAnimations();
+            } else {
+                // If first video not ready, try again after short delay
+                setTimeout(() => {
+                    window.startAllAnimations();
+                }, 500);
+            }
+        }
         
         console.log('All assets loaded and functionality enabled');
     }
@@ -833,7 +837,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (firstSlide) {
                 const video = firstSlide.querySelector('video');
                 if (video) {
-                    ensureVideoPlayback(video);
+                    video.play();
                 }
             }
         } else {
@@ -841,16 +845,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         if (!isStaticPage) {
-            queueHeroStart('history-nav');
-        }
-
-        if (!isStaticPage) {
+            // Start hero animation ved history navigation
             const firstVideo = document.querySelector('.slide video');
-            if (firstVideo && firstVideo.paused) {
-                const playPromise = firstVideo.play();
-                if (playPromise && typeof playPromise.catch === 'function') {
-                    playPromise.catch(() => {});
-                }
+            if (firstVideo && firstVideo.readyState >= 1) {
+                window.startAllAnimations();
+            } else {
+                // If first video not ready, try again after short delay
+                setTimeout(() => {
+                    window.startAllAnimations();
+                }, 500);
             }
         }
 
@@ -1137,7 +1140,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // TJEK FOR VIDEO OG START DEN
             const video = firstSlide.querySelector('video');
             if (video) {
-                ensureVideoPlayback(video);
+                video.play();
             }
         }
         if (heroText) {
@@ -1199,32 +1202,29 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Make startAllAnimations global so it can be called from intelligent loading
         window.startAllAnimations = function() {
+            
             // Allow CSS to update before starting animations
             requestAnimationFrame(() => {
-                if (firstVideo) {
-                    try {
-                        firstVideo.currentTime = 0;
-                    } catch (err) {
-                        console.warn('Could not reset first hero video time', err);
-                    }
-                    ensureVideoPlayback(firstVideo);
-                }
-
-                // Start med heroText skjult (opacity 0) og med blur
-                heroText.style.opacity = '0';
-                heroText.style.transition = `opacity ${fadeDuration}ms, filter ${fadeDuration}ms, transform ${fadeDuration}ms`;
-                heroText.classList.add('blur');
-
-                // Brug den definerede forsinkelse for slide 1 (heroTextDelay) – her 2 sekunder
-                setTimeout(() => {
-                    heroText.innerHTML = window.timeline.slides[0].text; // Ændret fra textContent til innerHTML
-                    heroText.style.color = window.timeline.slides[0].heroTextColor;
-                    heroText.classList.remove('blur');
-                    heroText.style.opacity = '1';
-                }, window.timeline.slides[0].heroTextDelay * 1000);
-
-                // Start rotation efter første slides varighed
-                setTimeout(nextSlide, window.timeline.slides[0].duration);
+            firstVideo.play();
+            // Tilføj video-ready klasse så videoen er synlig
+            firstVideo.classList.add('video-ready');
+            
+            // Start med heroText skjult (opacity 0) og med blur
+            heroText.innerHTML = ''; // Ændret fra textContent til innerHTML
+            heroText.style.opacity = '0';
+            heroText.style.transition = `opacity ${fadeDuration}ms, filter ${fadeDuration}ms, transform ${fadeDuration}ms`;
+            heroText.classList.add('blur');
+            
+            // Brug den definerede forsinkelse for slide 1 (heroTextDelay) – her 2 sekunder
+            setTimeout(() => {
+                heroText.innerHTML = window.timeline.slides[0].text; // Ændret fra textContent til innerHTML
+                heroText.style.color = window.timeline.slides[0].heroTextColor;
+                heroText.classList.remove('blur');
+                heroText.style.opacity = '1';
+            }, window.timeline.slides[0].heroTextDelay * 1000);
+            
+            // Start rotation efter første slides varighed
+            setTimeout(nextSlide, window.timeline.slides[0].duration);
             });
         };
         
@@ -1247,10 +1247,10 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Start den nye video's afspilning med det samme
             const vidNew = newSlide.querySelector('video');
-            if (vidNew) {
-                vidNew.currentTime = 0;
-                ensureVideoPlayback(vidNew);
-            }
+            vidNew.currentTime = 0;
+            vidNew.play();
+            // Tilføj video-ready klasse så videoen er synlig
+            vidNew.classList.add('video-ready');
             
             // Start fade-out af den gamle slide og hero-tekst med fast fadeDuration
             // Sørg for, at både opacity og filter (blur) overgår over fadeDuration.
@@ -1292,17 +1292,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Når fadeDuration er over, stoppes den gamle video, og vi planlægger næste slide
             setTimeout(() => {
-                const oldVideo = oldSlide.querySelector('video');
-                if (oldVideo) {
-                    try {
-                        oldVideo.pause();
-                        if (!oldVideo.loop) {
-                            oldVideo.currentTime = 0;
-                        }
-                    } catch (err) {
-                        console.warn('Could not reset old hero video', err);
-                    }
-                }
+                oldSlide.querySelector('video').pause();
                 oldSlide.style.zIndex = '0';
                 window.timeline.currentIndex = nextIndex;
                 const remainingDuration = window.timeline.slides[nextIndex].duration - fadeDuration;
